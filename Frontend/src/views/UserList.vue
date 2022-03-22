@@ -14,7 +14,7 @@
       </a>
 
       <v-spacer></v-spacer>
-      <v-btn to="/" text>
+      <v-btn to="/" text @click="logout()">
         <span class="mr-2">Çıkış Yap</span>
       </v-btn>
     </v-app-bar>
@@ -310,14 +310,22 @@ export default {
       this.ogrenciler = JSON.parse(JSON.stringify(this.ogrenciler));
     },
     getUsers() {
-      this.$http.post("/getUser", { data: this.ogrenciler }).then((res) => {
-        console.log(res.data);
-        if (res.data.status == "success") {
-          this.ogrenciler = res.data.data;
-        } else {
-          console.log(res.data.status);
-        }
-      });
+      this.$http
+        .post("/getUser", { data: [this.ogrenciler, localStorage.user] })
+        .then((res) => {
+          //console.log(res.data.reply,localStorage.accessToken);
+          if (res.data.status == "success") {
+            this.ogrenciler = res.data.data;
+          } else {
+            // console.log(res.data.status);
+          }
+        })
+        .catch(() => {
+          this.$router.push("/Giris");
+        });
+    },
+    logout() {
+      localStorage.removeItem("user");
     },
   },
 };

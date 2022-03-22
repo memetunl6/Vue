@@ -14,7 +14,7 @@
       </a>
 
       <v-spacer></v-spacer>
-      <v-btn to="/" text>
+      <v-btn to="/" text @click="logout()">
         <span class="mr-2">Çıkış Yap</span>
       </v-btn>
     </v-app-bar>
@@ -52,6 +52,9 @@ export default {
       drawer: false,
       group: null,
     };
+  },
+  logout() {
+    localStorage.removeItem("user");
   },
 };
 </script>

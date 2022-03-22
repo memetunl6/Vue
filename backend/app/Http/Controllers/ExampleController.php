@@ -7,6 +7,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Symfony\Component\Mime\Message;
+use Firebase\JWT\JWT;
+
+use function PHPSTORM_META\type;
 
 class ExampleController extends Controller
 {
@@ -85,16 +88,28 @@ class ExampleController extends Controller
    }
    public function Login(Request $request)
    {
-      $gelendata = Users::select('password')->first();
+      // $a = Hash::make(123456);
+      // $b = Hash::make(123456);
+      // dd([
+      //    $a, $b
+      // ]);
       $kullaniciadi = $request->data["kullaniciAdi"];
       $gelensifre = $request->data["sifre"];
+
       $kakarsilastırma = Users::where('ogradisoyadi', '=', $kullaniciadi)->first();
       if (!$kakarsilastırma) {
-         return response()->json(['status'=>false, 'message' => 'Login Fail, please check email id']);
+         return response()->json(['status' => false, 'message' => 'Login Fail, please check email id',]);
       }
-      if (!Hash::check($gelensifre, $gelendata->password)) {
-         return response()->json(['status'=>false, 'message' => 'Login Fail, pls check password']);
+      if (!Hash::check($gelensifre , $kakarsilastırma->password)) {
+         return response()->json(['status' => false, 'message' => 'Login Fail, pls check password', ]);
       }
-         return response()->json(['status'=>true,'message'=>'success']);
+      $jwt = JWT::encode([
+         'name' => $kullaniciadi,
+         'email' => $gelensifre,
+         'iat' => time(),
+         "exp" => time() + 60 * 60 * 4 # 4 saatlik bir jwt oluşturuyoruz.
+      ], env('JWT_SECRET'), "HS256");
+
+      return response()->json(['status' => true, 'message' => 'success', 'accessToken' => $jwt]);
    }
 }

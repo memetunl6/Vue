@@ -4,6 +4,7 @@
 
 use App\Http\Controllers\ExampleController;
 use Laravel\Lumen\Routing\Router;
+use App\Http\Middleware\JwtVerify;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,8 +20,8 @@ use Laravel\Lumen\Routing\Router;
 $router->get('/', function () use ($router) {
     return $router->app->version();
 });
-$router->post('/api/getUser','ExampleController@getUser');
-$router->post('/api/KullaniciEkle','ExampleController@KullaniciEkle');
-$router->post('/api/KullaniciSil','ExampleController@KullaniciSil');
-$router->post('/api/KullaniciDuzenle','ExampleController@KullaniciDuzenle');
-$router->post('/api/Login','ExampleController@Login' );
+$router->post('/api/getUser', ['middleware' => 'jwt','uses' => 'ExampleController@getUser']);
+$router->post('/api/KullaniciEkle', 'ExampleController@KullaniciEkle');
+$router->post('/api/KullaniciSil', 'ExampleController@KullaniciSil');
+$router->post('/api/KullaniciDuzenle', 'ExampleController@KullaniciDuzenle');
+$router->post('/api/Login', 'ExampleController@Login');

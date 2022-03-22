@@ -36,4 +36,5 @@ class ExampleMiddleware
 
         return $response;
     }
+    
 }

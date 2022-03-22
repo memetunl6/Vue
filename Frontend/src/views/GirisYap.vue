@@ -14,6 +14,9 @@
         </a>
       </div>
       <v-spacer></v-spacer>
+      <v-btn to="/About" text>
+          <span class="mr-2 text-capitalize">Kayıt ol</span>
+        </v-btn>
     </v-app-bar>
     <v-main>
       <v-card
@@ -95,23 +98,18 @@ export default {
             this.snackbarText = res.data.message;
             this.snackbar = true;
             if (res.data.status == true) {
+              localStorage.setItem('user', res.data.accessToken)
               setTimeout(() => {
                 this.$router.push("/Panel");
               }, 700);
-              console.log(res);
+               //console.log(res);
             }
           })
           .catch((err) => {
             console.log(err);
           });
       }
-      //(this.kullaniciAdi === "memet" && this.sifre === "memet@21") {
-      //   this.renk = "success";
-      //   this.snackbarText = "Giriş Başarılı";
-      //   this.snackbar = true;
-      //   setTimeout(() => {
-      //     this.$router.push("/Panel");
-      //   }, 700);}
+      
       else {
         this.snackbarText = "Alan Boş bırakılamaz";
         this.snackbar = true;
