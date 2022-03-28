@@ -6,8 +6,15 @@ import axios from 'axios'
 
 Vue.config.productionTip = false
 
-axios.defaults.baseURL = 'http://localhost:8000/api';
-axios.interceptors.request.use(function (config) {
+const phpAxios = axios.create({
+  baseURL: 'http://localhost:8010/api',
+})
+
+const jsAxios = axios.create({
+  baseURL: 'http://localhost:3000/api',
+})
+
+phpAxios.interceptors.request.use(function (config) {
   const token = localStorage.user;
   if (token) {
     config.headers.Authorization = 'Bearer ' + token ;
@@ -16,7 +23,8 @@ axios.interceptors.request.use(function (config) {
   return config;
 });
 
-Vue.prototype.$http = axios;
+Vue.prototype.$http = phpAxios;
+Vue.prototype.$jshttp = jsAxios;
 
 
 new Vue({

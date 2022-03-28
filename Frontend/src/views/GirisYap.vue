@@ -14,7 +14,7 @@
         </a>
       </div>
       <v-spacer></v-spacer>
-      <v-btn to="/About" text>
+      <v-btn to="/Register" text>
           <span class="mr-2 text-capitalize">Kayıt ol</span>
         </v-btn>
     </v-app-bar>

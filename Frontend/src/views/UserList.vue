@@ -2,7 +2,8 @@
   <v-app>
     <v-app-bar app color="transparent" elevation="0">
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
-      <a href="/Panel" class="d-flex align-center">
+      <a href="#" to="/Panel" class="d-flex align-center">
+      
         <v-img
           alt="Rodos Logo"
           class="shrink mr-2"
@@ -14,7 +15,7 @@
       </a>
 
       <v-spacer></v-spacer>
-      <v-btn to="/" text @click="logout()">
+      <v-btn text @click="logout()">
         <span class="mr-2">Çıkış Yap</span>
       </v-btn>
     </v-app-bar>
@@ -326,6 +327,7 @@ export default {
     },
     logout() {
       localStorage.removeItem("user");
+      this.$router.push("/Giris");
     },
   },
 };

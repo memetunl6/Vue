@@ -4,6 +4,9 @@ import HomeView from '../views/HomeView.vue'
 
 Vue.use(VueRouter)
 
+
+
+
 const routes = [
   {
     path: '/',
@@ -11,12 +14,12 @@ const routes = [
     component: HomeView
   },
   {
-    path: '/about',
-    name: 'about',
+    path: '/Register',
+    name: 'Kayıt',
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
+    component: () => import(/* webpackChunkName: "kayıt" */ '../views/AboutView.vue')
   },
   {
     path: '/Giris',
@@ -41,4 +44,14 @@ const router = new VueRouter({
   routes
 })
 
+router.beforeEach((to,from,next) => {
+  const token = localStorage.getItem('user');
+  if (!token && to.path !== '/Giris' && to.path !== '/Register' && to.path !== '/') {
+    next('/Giris');
+  }
+  else {
+    next();
+  }
+});
+  
 export default router
